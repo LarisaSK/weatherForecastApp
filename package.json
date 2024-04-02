@@ -1,0 +1,12 @@
+{
+  "name": "weatherforecastapp",
+  "version": "1.0.0",
+  "description": "A website to check the weather forecast in differen citites",
+  "main": "build/script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["weather"],
+  "author": "Larisa Saitova",
+  "license": "ISC"
+}
