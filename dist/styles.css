@@ -63,4 +63,35 @@ body {
   transition: 0.2s ease;
 }
 
+.toggleNavIcons {
+  display: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 5rem;
+  position: absolute;
+  top: 10px;
+}
+.toggleNavIcons#navMenuIcon {
+  left: 10px;
+}
+.toggleNavIcons#navCloseIcon {
+  right: 10px;
+}
+
+/* For tablet screens */
+@media (max-width: 790px) {
+  #navbar {
+    display: none; /* Keep hidden initially */
+    transform: translateX(-100%);
+  }
+  #navbar.open {
+    display: flex;
+    transform: translateX(0);
+  }
+  .toggleNavIcons {
+    display: block;
+  }
+}
+
 /*# sourceMappingURL=styles.css.map*/
