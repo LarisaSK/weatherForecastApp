@@ -1,3 +1,7 @@
+//Defining Sass variables: 
+//colors
+$primary-color: #4edbc4;
+
 //Defining Sass mixins
 @mixin centerGrid{
     display: grid;
@@ -46,12 +50,25 @@
     align-items: center;
     justify-content: space-between;
     transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
-  }
+ 
 
   #navList {
     display: grid;
     grid-template-columns: 1fr;
     height: 100%;
     align-content: space-around;
+
+    .forecastDays{
+        list-style: none;
+        background-color: $primary-color;
+        padding: 1.5rem;
+        border-radius:15px;
+        cursor: pointer;
+        margin: 0 0.5rem;
+        transition: 0.2s ease;
+      }
+    }
   }
+
+
  

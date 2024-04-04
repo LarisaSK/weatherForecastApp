@@ -47,12 +47,20 @@ body {
   justify-content: space-between;
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
 }
-
-#navList {
+#navbar #navList {
   display: grid;
   grid-template-columns: 1fr;
   height: 100%;
   align-content: space-around;
+}
+#navbar #navList .forecastDays {
+  list-style: none;
+  background-color: #4edbc4;
+  padding: 1.5rem;
+  border-radius: 15px;
+  cursor: pointer;
+  margin: 0 0.5rem;
+  transition: 0.2s ease;
 }
 
 /*# sourceMappingURL=styles.css.map*/
