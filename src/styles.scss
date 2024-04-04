@@ -1,3 +1,10 @@
+//Defining Sass mixins
+@mixin centerGrid{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -6,9 +13,7 @@
   }
   
   body {
-    display: grid;
-    justify-content: center;
-    align-items: center;
+    @include centerGrid();
     height: 100%;
     width: 100%;
     background-size: cover; /* This makes the image cover the entire screen */
@@ -19,9 +24,7 @@
   }
 
   #weather-container {
-    display: grid;
-    justify-content: center;
-    align-items: center;
+    @include centerGrid();
     gap: 2rem;
     width: 60vw;
     margin-left: 15rem;
@@ -44,7 +47,7 @@
     justify-content: space-between;
     transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
   }
-  
+
   #navList {
     display: grid;
     grid-template-columns: 1fr;
