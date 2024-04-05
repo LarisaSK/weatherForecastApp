@@ -63,6 +63,21 @@ var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __webpack_require__(/*! ./styles.scss */ "./src/styles.scss");
+// Function to toggle the navigation menu
+function toggleNavMenu() {
+    const navbar = document.getElementById('navbar');
+    const navMenuIcon = document.getElementById('navMenuIcon');
+    const navCloseIcon = document.getElementById('navCloseIcon');
+    // Add event listeners to both the menu toggle button and the close button
+    navMenuIcon.addEventListener('click', () => {
+        navbar.classList.toggle('open');
+    });
+    navCloseIcon.addEventListener('click', () => {
+        navbar.classList.toggle('open');
+    });
+}
+// Call the function to initialize the menu toggle functionality
+toggleNavMenu();
 
 })();
 
