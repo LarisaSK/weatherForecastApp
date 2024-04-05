@@ -15,7 +15,11 @@ $primary-color: #4edbc4;
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
   }
-  
+
+  h1,h2,h3,h4,h5 label, p{
+    text-align: center;
+}
+
   body {
     @include centerGrid();
     height: 100%;
@@ -88,14 +92,6 @@ $primary-color: #4edbc4;
         }
     }
 
-/* For mobile screens */
-@media (max-width: 428px) {
-    #navbar {
-        width: 100vw; /* Full width of the viewport */
-        transform: translateX(0); /* Ensure it's fully visible */
-    }
-}
-
     /* For tablet screens */
 @media (max-width: 790px) {
     #navbar {
@@ -112,3 +108,26 @@ $primary-color: #4edbc4;
         display: block;
     }
 }
+
+
+
+#searchWrapper {
+    max-width: 400px;
+    justify-self: center; 
+
+    #citySearch{
+        width: 300px;
+        margin: 0 auto;
+        position: relative;
+
+        .input{
+            width: 50%;
+            padding: 20px;
+            border: 0;
+            border-radius: 50px;
+            transition: width 0.5s ease;
+            padding-left: 70px;
+            height: 60px;
+            }
+        }
+    }
