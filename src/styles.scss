@@ -88,6 +88,14 @@ $primary-color: #4edbc4;
         }
     }
 
+/* For mobile screens */
+@media (max-width: 428px) {
+    #navbar {
+        width: 100vw; /* Full width of the viewport */
+        transform: translateX(0); /* Ensure it's fully visible */
+    }
+}
+
     /* For tablet screens */
 @media (max-width: 790px) {
     #navbar {
