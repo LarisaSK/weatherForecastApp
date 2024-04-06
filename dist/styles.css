@@ -115,5 +115,19 @@ body {
   padding-left: 70px;
   height: 60px;
 }
+#searchWrapper #citySearch .btn {
+  width: 100%;
+  height: 60px;
+  padding: 20px;
+  border: none;
+  background-color: #4edbc4;
+  border-radius: 50px;
+  text-align: center;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: width 0.5s ease;
+}
 
 /*# sourceMappingURL=styles.css.map*/
