@@ -102,6 +102,15 @@ function getWeather() {
             throw new Error(currentWeatherData.message);
         }
         console.log("Current Weather Data:", currentWeatherData); // Log the API response
+        // Fetch forecast data
+        return fetch(forecastUrl).then(response => response.json())
+            .then(forecastData => {
+            if (forecastData.cod !== "200") {
+                throw new Error(forecastData.message);
+            }
+            console.log("Forecast Data:", forecastData); // Log the API response
+            fullForecastData = forecastData; // Store forecast data globally
+        });
     })
         .catch(error => {
         console.error('Error fetching weather data:', error);
