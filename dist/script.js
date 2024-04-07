@@ -79,7 +79,6 @@ function toggleNavMenu() {
 }
 // Call the function to initialize the menu toggle functionality
 toggleNavMenu();
-
 function getWeather() {
     const apiKey = "d33f0ce7a09838a09d8022ab1acae3d1";
     const city = document.getElementById("idInput").value;
