@@ -63,6 +63,7 @@ var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __webpack_require__(/*! ./styles.scss */ "./src/styles.scss");
+let fullForecastData = null; //to store full forecast data globally
 // Function to toggle the navigation menu
 function toggleNavMenu() {
     const navbar = document.getElementById('navbar');
@@ -78,6 +79,35 @@ function toggleNavMenu() {
 }
 // Call the function to initialize the menu toggle functionality
 toggleNavMenu();
+
+function getWeather() {
+    const apiKey = "d33f0ce7a09838a09d8022ab1acae3d1";
+    const city = document.getElementById("idInput").value;
+    const errorMessageDiv = document.getElementById("error-message");
+    const inputField = document.getElementById("idInput");
+    // Clear any previous error message and reset input field border
+    errorMessageDiv.style.display = 'none';
+    inputField.style.border = '1px solid #ccc';
+    if (!city) {
+        alert("Please enter a city."); // Display error if no city is entered
+        return;
+    }
+    const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
+    // Fetch current weather
+    fetch(currentWeatherUrl)
+        .then(response => response.json())
+        .then(currentWeatherData => {
+        if (currentWeatherData.cod !== 200) {
+            throw new Error(currentWeatherData.message);
+        }
+        console.log("Current Weather Data:", currentWeatherData); // Log the API response
+    })
+        .catch(error => {
+        console.error('Error fetching weather data:', error);
+        alert('Failed to fetch weather data. Please try again.');
+    });
+}
 
 })();
 
