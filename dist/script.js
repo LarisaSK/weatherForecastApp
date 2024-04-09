@@ -116,6 +116,26 @@ function getWeather() {
         alert('Failed to fetch weather data. Please try again.');
     });
 }
+getWeather();
+function displayWeather() {
+    const cityNameDiv = document.getElementById("cityNameDiv");
+    const temperatureDiv = document.getElementById("temperatureDiv");
+    const descriptionDiv = document.getElementById("descriptionDiv");
+    const timeDiv = document.getElementById("timeDiv");
+    const weatherIcon = document.getElementById("weatherIcon");
+    const humiditySection = document.getElementById("humiditySection");
+    const windSpeedSection = document.getElementById("windSpeedSection");
+    const cloudCoverageSection = document.getElementById("cloudCoverageSection");
+    // Clear previous weather information
+    cityNameDiv.innerHTML = '';
+    temperatureDiv.innerHTML = '';
+    descriptionDiv.innerHTML = '';
+    timeDiv.innerHTML = '';
+    humiditySection.innerHTML = '';
+    windSpeedSection.innerHTML = '';
+    cloudCoverageSection.innerHTML = '';
+}
+displayWeather();
 
 })();
 

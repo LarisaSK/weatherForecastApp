@@ -47,7 +47,7 @@ function getWeather(): void {
             }
 
             console.log("Current Weather Data:", currentWeatherData); // Log the API response
-            
+          
 
             // Fetch forecast data
             return fetch(forecastUrl).then(response => response.json())
@@ -67,3 +67,26 @@ function getWeather(): void {
 }
 
 
+getWeather();
+
+function displayWeather(): void {
+    const cityNameDiv = document.getElementById("cityNameDiv") as HTMLElement;
+    const temperatureDiv = document.getElementById("temperatureDiv") as HTMLElement;
+    const descriptionDiv = document.getElementById("descriptionDiv") as HTMLElement;
+    const timeDiv = document.getElementById("timeDiv") as HTMLElement;
+    const weatherIcon = document.getElementById("weatherIcon") as HTMLImageElement;
+    const humiditySection = document.getElementById("humiditySection") as HTMLElement;
+    const windSpeedSection = document.getElementById("windSpeedSection") as HTMLElement;
+    const cloudCoverageSection = document.getElementById("cloudCoverageSection") as HTMLElement;
+
+    // Clear previous weather information
+    cityNameDiv.innerHTML = '';
+    temperatureDiv.innerHTML = '';
+    descriptionDiv.innerHTML = '';
+    timeDiv.innerHTML = '';
+    humiditySection.innerHTML = '';
+    windSpeedSection.innerHTML = '';
+    cloudCoverageSection.innerHTML = '';
+
+}
+displayWeather();
