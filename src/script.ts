@@ -58,7 +58,6 @@ function getWeather(): void {
 
                     console.log("Forecast Data:", forecastData); // Log the API response
                     fullForecastData = forecastData; // Store forecast data globally
-                    
                 });
         })
         .catch(error => {
@@ -66,3 +65,5 @@ function getWeather(): void {
             alert('Failed to fetch weather data. Please try again.');
         });
 }
+
+
