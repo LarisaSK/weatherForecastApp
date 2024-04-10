@@ -101,6 +101,7 @@ function getWeather() {
             throw new Error(currentWeatherData.message);
         }
         console.log("Current Weather Data:", currentWeatherData); // Log the API response
+        displayWeather(currentWeatherData);
         // Fetch forecast data
         return fetch(forecastUrl).then(response => response.json())
             .then(forecastData => {
