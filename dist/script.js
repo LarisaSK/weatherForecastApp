@@ -117,7 +117,7 @@ function getWeather() {
     });
 }
 getWeather();
-function displayWeather() {
+function displayWeather(data) {
     const cityNameDiv = document.getElementById("cityNameDiv");
     const temperatureDiv = document.getElementById("temperatureDiv");
     const descriptionDiv = document.getElementById("descriptionDiv");
@@ -134,8 +134,45 @@ function displayWeather() {
     humiditySection.innerHTML = '';
     windSpeedSection.innerHTML = '';
     cloudCoverageSection.innerHTML = '';
+    if (data.cod === '404') {
+        descriptionDiv.innerHTML = `<p>${data.message}</p>`;
+    }
+    else {
+        const cityName = data.name;
+        const temperature = Math.round(data.main.temp - 273.15); // Convert Kelvin to Celsius
+        const description = data.weather[0].description;
+        const humidity = data.main.humidity;
+        const windSpeed = Math.round(data.wind.speed); // Round to whole number
+        const cloudCoverage = data.clouds.all;
+        const iconCode = data.weather[0].icon;
+        const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        // Create HTML content
+        const cityHTML = `<h2>${cityName}</h2>`;
+        const temperatureHTML = `<p>${temperature}°C</p>`;
+        const descriptionHTML = `<p>${description}</p>`;
+        const humidityHTML = `
+            <span class="airInfoDetail material-icons">water_drop</span>
+            <span class="airInfoDetail">${humidity}%</span>
+            <div class="airInfoDetail">Humidity</div>`;
+        const windSpeedHTML = `
+            <span class="airInfoDetail material-icons">air</span>
+            <span class="airInfoDetail">${windSpeed} m/s</span>
+            <div class="airInfoDetail">Wind speed</div>`;
+        const cloudCoverageHTML = `
+            <span class="airInfoDetail material-icons">cloud</span>
+            <span class="airInfoDetail">${cloudCoverage}%</span>
+            <div class="airInfoDetail">Cloud coverage</div>`;
+        // Update the HTML elements with the weather information
+        cityNameDiv.innerHTML = cityHTML;
+        temperatureDiv.innerHTML = temperatureHTML;
+        descriptionDiv.innerHTML = descriptionHTML;
+        humiditySection.innerHTML = humidityHTML;
+        windSpeedSection.innerHTML = windSpeedHTML;
+        cloudCoverageSection.innerHTML = cloudCoverageHTML;
+        weatherIcon.src = iconUrl;
+        weatherIcon.alt = description;
+    }
 }
-displayWeather();
 
 })();
 
