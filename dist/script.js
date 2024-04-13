@@ -172,7 +172,12 @@ function displayWeather(data) {
         cloudCoverageSection.innerHTML = cloudCoverageHTML;
         weatherIcon.src = iconUrl;
         weatherIcon.alt = description;
+        showImage();
     }
+}
+function showImage() {
+    const weatherIcon = document.getElementById("weatherIcon");
+    weatherIcon.style.display = "inline-block";
 }
 
 })();

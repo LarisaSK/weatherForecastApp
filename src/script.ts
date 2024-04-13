@@ -129,7 +129,11 @@ function displayWeather(data: any): void {
         weatherIcon.src = iconUrl;
         weatherIcon.alt = description;
 
-       
+        showImage(); 
     }
 }
 
+function showImage(): void {
+    const weatherIcon = document.getElementById("weatherIcon") as HTMLImageElement;
+    weatherIcon.style.display = "inline-block";
+}
