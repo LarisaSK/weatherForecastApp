@@ -179,6 +179,20 @@ function showImage() {
     const weatherIcon = document.getElementById("weatherIcon");
     weatherIcon.style.display = "inline-block";
 }
+// Only display weather when the searchBtn is clicked while the btn has class btn_active
+let btn = document.getElementById("idBtn");
+let input = document.getElementById("idInput");
+btn.addEventListener("click", function () {
+    this.classList.toggle("btn_active");
+    input.classList.toggle("input_active");
+    if (!this.classList.contains("btn_active")) {
+        getWeather();
+    }
+    else {
+        input.focus();
+        input.value = '';
+    }
+});
 
 })();
 
