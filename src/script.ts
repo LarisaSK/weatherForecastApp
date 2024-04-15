@@ -31,7 +31,7 @@ function getWeather(): void {
     inputField.style.border = '1px solid #ccc';
 
     if (!city) {
-        alert("Please enter a city."); // Display error if no city is entered
+        displayErrorMessage("Please enter a city."); // Display error if no city is entered
         return;
     }
     
@@ -47,7 +47,7 @@ function getWeather(): void {
             }
 
             console.log("Current Weather Data:", currentWeatherData); // Log the API response
-            displayWeather(currentWeatherData)
+            
 
             // Fetch forecast data
             return fetch(forecastUrl).then(response => response.json())
@@ -62,7 +62,7 @@ function getWeather(): void {
         })
         .catch(error => {
             console.error('Error fetching weather data:', error);
-            alert('Failed to fetch weather data. Please try again.');
+            displayErrorMessage('Failed to fetch weather data. Please try again.');
         });
 }
 

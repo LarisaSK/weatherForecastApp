@@ -88,7 +88,7 @@ function getWeather() {
     errorMessageDiv.style.display = 'none';
     inputField.style.border = '1px solid #ccc';
     if (!city) {
-        alert("Please enter a city."); // Display error if no city is entered
+        displayErrorMessage("Please enter a city."); // Display error if no city is entered
         return;
     }
     const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
@@ -101,7 +101,6 @@ function getWeather() {
             throw new Error(currentWeatherData.message);
         }
         console.log("Current Weather Data:", currentWeatherData); // Log the API response
-        displayWeather(currentWeatherData);
         // Fetch forecast data
         return fetch(forecastUrl).then(response => response.json())
             .then(forecastData => {
@@ -114,7 +113,7 @@ function getWeather() {
     })
         .catch(error => {
         console.error('Error fetching weather data:', error);
-        alert('Failed to fetch weather data. Please try again.');
+        displayErrorMessage('Failed to fetch weather data. Please try again.');
     });
 }
 getWeather();
