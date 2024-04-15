@@ -152,3 +152,10 @@ btn.addEventListener("click", function() {
         input.value = '';
     }
 });
+
+function displayErrorMessage(message: string): void {
+    const errorMessageDiv = document.getElementById("error-message") as HTMLElement;
+
+    errorMessageDiv.textContent = message;
+    errorMessageDiv.style.display = 'block';
+}

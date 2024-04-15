@@ -193,6 +193,11 @@ btn.addEventListener("click", function () {
         input.value = '';
     }
 });
+function displayErrorMessage(message) {
+    const errorMessageDiv = document.getElementById("error-message");
+    errorMessageDiv.textContent = message;
+    errorMessageDiv.style.display = 'block';
+}
 
 })();
 
