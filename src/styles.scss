@@ -1,6 +1,11 @@
 //Defining Sass variables: 
+
 //colors
 $primary-color: #4edbc4;
+
+// Font weights
+$font-weight-normal: 400;
+$font-weight-bold: 700;
 
 //Defining Sass mixins
 @mixin centerGrid{
@@ -154,3 +159,9 @@ $primary-color: #4edbc4;
         }
     }
 }
+
+#error-message{
+  font-weight: $font-weight-bold;
+  text-align: center;
+  }
+  
