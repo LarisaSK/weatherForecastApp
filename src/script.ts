@@ -66,10 +66,7 @@ function getWeather(): void {
         });
 }
 
-
-getWeather();
-
-function displayWeather(data: any): void {
+function loadFetchedWeatherData(data: any): void {
     const cityNameDiv = document.getElementById("cityNameDiv") as HTMLElement;
     const temperatureDiv = document.getElementById("temperatureDiv") as HTMLElement;
     const descriptionDiv = document.getElementById("descriptionDiv") as HTMLElement;

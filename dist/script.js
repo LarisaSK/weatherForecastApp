@@ -116,8 +116,7 @@ function getWeather() {
         displayErrorMessage('Failed to fetch weather data. Please try again.');
     });
 }
-getWeather();
-function displayWeather(data) {
+function loadFetchedWeatherData(data) {
     const cityNameDiv = document.getElementById("cityNameDiv");
     const temperatureDiv = document.getElementById("temperatureDiv");
     const descriptionDiv = document.getElementById("descriptionDiv");
