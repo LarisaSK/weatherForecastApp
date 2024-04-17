@@ -156,3 +156,39 @@ function displayErrorMessage(message: string): void {
     errorMessageDiv.textContent = message;
     errorMessageDiv.style.display = 'block';
 }
+
+function renderWeatherElements(data: any): void {
+    const elementsConfig = [
+        { id: "cityNameDiv", content: `<h2>${data.cityName}</h2>` },
+        { id: "temperatureDiv", content: `<p>${data.temperature}°C</p>` },
+        { id: "descriptionDiv", content: `<p>${data.description}</p>` },
+        { id: "timeDiv", content: `<p>Time: ${data.time}</p>` },
+        { id: "humiditySection", content: `
+            <span class="airInfoDetail material-icons">water_drop</span>
+            <span class="airInfoDetail">${data.humidity}%</span>
+            <div class="airInfoDetail">Humidity</div>` },
+        { id: "windSpeedSection", content: `
+            <span class="airInfoDetail material-icons">air</span>
+            <span class="airInfoDetail">${data.windSpeed} m/s</span>
+            <div class="airInfoDetail">Wind speed</div>` },
+        { id: "cloudCoverageSection", content: `
+            <span class="airInfoDetail material-icons">cloud</span>
+            <span class="airInfoDetail">${data.cloudCoverage}%</span>
+            <div class="airInfoDetail">Cloud coverage</div>` }
+    ];
+
+    // Update innerHTML for each element
+    elementsConfig.forEach(({ id, content }) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.innerHTML = content;
+        }
+    });
+
+    // Update the weather icon separately
+    const weatherIcon = document.getElementById("weatherIcon") as HTMLImageElement;
+    if (weatherIcon) {
+        weatherIcon.src = data.iconUrl;
+        weatherIcon.alt = data.description;
+    }
+}
