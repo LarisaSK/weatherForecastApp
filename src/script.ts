@@ -147,3 +147,17 @@ function renderWeatherElements(data: any): void {
         weatherIcon.alt = data.description;
     }
 }
+//Function to set up click event for navigation
+function setUpNavClickEvents(): void {
+    const forecastDays = document.querySelectorAll('.forecastDays');
+
+    forecastDays.forEach((dayElement, index) => {
+        dayElement.addEventListener('click', () => {
+            // Remove 'active' class from all forecast days
+            forecastDays.forEach(day => day.classList.remove('active'));
+
+            // Add 'active' class to the clicked day
+            dayElement.classList.add('active');
+        });
+    });
+}
