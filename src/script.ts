@@ -161,3 +161,4 @@ function setUpNavClickEvents(): void {
         });
     });
 }
+setUpNavClickEvents();

@@ -66,6 +66,10 @@ body {
   margin: 0 0.5rem;
   transition: 0.2s ease;
 }
+#navbar #navList .forecastDays:hover, #navbar #navList .forecastDays.active {
+  background-color: rgb(31, 121, 91);
+  color: #FFF;
+}
 
 .toggleNavIcons {
   display: none;

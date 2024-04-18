@@ -202,6 +202,7 @@ function setUpNavClickEvents() {
         });
     });
 }
+setUpNavClickEvents();
 
 })();
 
