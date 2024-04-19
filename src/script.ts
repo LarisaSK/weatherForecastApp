@@ -58,6 +58,7 @@ function getWeather(): void {
 
                     console.log("Forecast Data:", forecastData); // Log the API response
                     fullForecastData = forecastData; // Store forecast data globally
+                    updateDatesInNav(); // Update dates after fetching data
                 });
         })
         .catch(error => {
@@ -162,3 +163,18 @@ function setUpNavClickEvents(): void {
     });
 }
 setUpNavClickEvents();
+
+function updateDatesInNav(): void {
+    const forecastDays = document.querySelectorAll('.forecastDays');
+    const today = new Date();
+
+    for (let i = 0; i < forecastDays.length; i++) {
+        const date = today;
+        date.setDate(today.getDate() + i);
+
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+        const dayDate = date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
+
+        (forecastDays[i] as HTMLElement).innerText = `${dayName} ${dayDate}`;
+    }
+}
