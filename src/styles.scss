@@ -43,6 +43,11 @@ $font-weight-bold: 700;
     margin-left: 15rem;
     height: 100%;
   }
+
+  #mainWeatherDisplay{
+    @include centerGrid();
+    justify-items: center;
+  }
   
   #navbar {
     position: fixed;

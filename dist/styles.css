@@ -35,6 +35,13 @@ body {
   height: 100%;
 }
 
+#mainWeatherDisplay {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+}
+
 #navbar {
   position: fixed;
   height: 100vh;
