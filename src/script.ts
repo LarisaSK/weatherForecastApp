@@ -120,13 +120,15 @@ function renderWeatherElements(data: any): void {
         { id: "descriptionDiv", content: `<p>${data.description}</p>` },
         { id: "timeDiv", content: `<p>Time: ${data.time}</p>` },
         { id: "humiditySection", content: `
+            <span class="airInfoDetail material-icons">water_drop</span>
             <span class="airInfoDetail">${data.humidity}%</span>
             <div class="airInfoDetail">Humidity</div>` },
         { id: "windSpeedSection", content: `
-           
+            <span class="airInfoDetail material-icons">air</span>
             <span class="airInfoDetail">${data.windSpeed} m/s</span>
             <div class="airInfoDetail">Wind speed</div>` },
         { id: "cloudCoverageSection", content: `
+            <span class="airInfoDetail material-icons">cloud</span>
             <span class="airInfoDetail">${data.cloudCoverage}%</span>
             <div class="airInfoDetail">Cloud coverage</div>` }
     ];
