@@ -45,6 +45,8 @@ body {
   display: flex;
   gap: 2rem;
   font-size: 20px;
+  width: 100%;
+  overflow-x: auto;
   margin-top: 1rem;
 }
 

@@ -64,8 +64,11 @@ $gap-large: 2rem;
       display: flex;
       gap: $gap-large;
       font-size: $font-size-medium;
+      width:100%;//ensuring 
+      overflow-x: auto;//responsiveness 
       margin-top: 1rem;
       }
+
   }
   
   #navbar {
