@@ -3,9 +3,21 @@
 //colors
 $primary-color: #4edbc4;
 
+//font-size
+$font-size-large: 3.75rem;   
+$font-size-medium:20px;  
+
 // Font weights
 $font-weight-normal: 400;
 $font-weight-bold: 700;
+
+// Gaps
+$gap-large: 2rem;
+
+
+
+
+
 
 //Defining Sass mixins
 @mixin centerGrid{
@@ -47,6 +59,13 @@ $font-weight-bold: 700;
   #mainWeatherDisplay{
     @include centerGrid();
     justify-items: center;
+
+    #airDetailsSection{
+      display: flex;
+      gap: $gap-large;
+      font-size: $font-size-medium;
+      margin-top: 1rem;
+      }
   }
   
   #navbar {
