@@ -73,6 +73,12 @@ $gap-large: 2rem;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
+      
+      #weatherIcon{
+        width: 10rem;
+    height: auto; // Keeps the aspect ratio of the image
+        display: none;
+    }
       }
     }
   #navbar {

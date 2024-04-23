@@ -54,6 +54,11 @@ body {
   flex-wrap: wrap;
   align-items: center;
 }
+#mainWeatherDisplay #temperatureAndIconSection #weatherIcon {
+  width: 10rem;
+  height: auto;
+  display: none;
+}
 
 #navbar {
   position: fixed;
