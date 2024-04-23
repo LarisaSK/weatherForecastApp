@@ -59,6 +59,10 @@ body {
   height: auto;
   display: none;
 }
+#mainWeatherDisplay #temperatureAndIconSection #temperatureDiv p {
+  font-size: 3.75rem;
+  text-align: center;
+}
 
 #navbar {
   position: fixed;
