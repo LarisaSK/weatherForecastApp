@@ -67,10 +67,14 @@ $gap-large: 2rem;
       width:100%;//ensuring 
       overflow-x: auto;//responsiveness 
       margin-top: 1rem;
-      }
-
   }
-  
+
+    #temperatureAndIconSection{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      }
+    }
   #navbar {
     position: fixed;
     height: 100vh;

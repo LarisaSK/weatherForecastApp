@@ -49,6 +49,11 @@ body {
   overflow-x: auto;
   margin-top: 1rem;
 }
+#mainWeatherDisplay #temperatureAndIconSection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
 
 #navbar {
   position: fixed;
