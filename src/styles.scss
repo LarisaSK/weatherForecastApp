@@ -99,7 +99,20 @@ $gap-large: 2rem;
   height: 150px;
   padding: 1rem;
     }
-    
+    #cloudCoverageSection {
+      background-color: rgba(255, 255, 255, 0.4039215686);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto;
+  justify-items: center;
+  text-align: center;
+  width: 155px;
+  height: 150px;
+  padding: 1rem;
+    }
+
 
   #navbar {
     position: fixed;
