@@ -122,6 +122,14 @@ $gap-large: 2rem;
   height: 150px;
   padding: 1rem;
     }
+    
+.cloudCoverageSymbol {
+  grid-column: span 2;
+}
+
+.cloudCoverageSymbol:last-child {
+  grid-column: 2/span 2;
+}
 
 
   #navbar {
