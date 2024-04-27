@@ -2,6 +2,9 @@
 
 //colors
 $primary-color: #4edbc4;
+$hover-color: #429b9b;
+$text-color: #fff;
+$blur-color: #ffffff67;
 
 //font-size
 $font-size-large: 3.75rem;   
@@ -14,17 +17,21 @@ $font-weight-bold: 700;
 // Gaps
 $gap-large: 2rem;
 
-
-
-
-
-
 //Defining Sass mixins
+
 @mixin centerGrid{
     display: grid;
     justify-content: center;
     align-items: center;
 }
+
+
+@mixin blurryBackground($border-radius:15px){
+  background-color: $blur-color;
+  backdrop-filter: blur(10px);
+  border-radius: $border-radius;
+}
+
 
 * {
     padding: 0;
@@ -96,9 +103,7 @@ $gap-large: 2rem;
   width: 155px; 
   height: 150px; 
   padding: 1rem;
-  background-color: #ffffff67;;
-    backdrop-filter: blur(10px);
-    border-radius: 15px; 
+  @include blurryBackground(); 
 
   .airInfoDetail{
       height: 50px;
