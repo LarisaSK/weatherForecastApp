@@ -86,49 +86,28 @@ $gap-large: 2rem;
         }
       }
     }
-    #humiditySection {
-      background-color: rgba(255, 255, 255, 0.4039215686);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      display: grid;
+    
+.airDetailsClass{
+  display: grid; 
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto auto;
-  justify-items: center;
+  justify-items: center; 
   text-align: center;
-  width: 155px;
-  height: 150px;
+  width: 155px; 
+  height: 150px; 
   padding: 1rem;
-    }
+  background-color: #ffffff67;;
+    backdrop-filter: blur(10px);
+    border-radius: 15px; 
 
-    
-.humiditySymbol {
-  height: 50px;
-  grid-column: span 2;
-}
-
-.humiditySymbol:last-child {
-  grid-column: 2/span 2;
-}
-    #cloudCoverageSection {
-      background-color: rgba(255, 255, 255, 0.4039215686);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: auto auto;
-  justify-items: center;
-  text-align: center;
-  width: 155px;
-  height: 150px;
-  padding: 1rem;
-    }
-    
-.cloudCoverageSymbol {
-  grid-column: span 2;
-}
-
-.cloudCoverageSymbol:last-child {
-  grid-column: 2/span 2;
+  .airInfoDetail{
+      height: 50px;
+      grid-column: span 2;
+  
+      &:last-child  {
+          grid-column: 2 / span 2;
+          }
+  }
 }
 
 
