@@ -178,3 +178,17 @@ function updateDatesInNav(): void {
         (forecastDays[i] as HTMLElement).innerText = `${dayName} ${dayDate}`;
     }
 }
+
+// Function to calculate the local time in the city based on the user's local time and the city's timezone offset
+function getLocalTime(date: Date, cityTimezoneOffset: number): Date {
+    // Get user's local time offset in minutes and convert it to seconds
+    const userTimezoneOffset = date.getTimezoneOffset() * 60;
+
+    // Calculate the difference between the user's local time and the city's time
+    const timeDifference = cityTimezoneOffset - userTimezoneOffset;
+
+    // Calculate the city's local time by adjusting the user's local time
+    const cityTime = new Date(date.getTime() + (timeDifference * 1000));
+
+    return cityTime;
+}
