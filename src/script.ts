@@ -78,6 +78,7 @@ function loadFetchedWeatherData(data: any): void {
             humidity: data.main.humidity,
             windSpeed: Math.round(data.wind.speed),
             cloudCoverage: data.clouds.all,
+            time: getLocalTime(new Date(), data.timezone).toLocaleTimeString(),
             cityName: data.name
         };
 
