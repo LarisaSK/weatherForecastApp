@@ -212,4 +212,21 @@ function reverseGeocode(latitude: number, longitude: number): void {
             console.error("Error during reverse geocoding:", error);
             displayErrorMessage("Failed to get city name from your location. Please enter your city manually.");        });
 }
-reverseGeocode(58.1467,7.9956);
+
+
+function getUserLocation(): void {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            reverseGeocode(latitude, longitude);
+        }, error => {
+            console.error("Error getting location:", error);
+            alert("Unable to retrieve your location. Please enter your city manually.");
+        });
+    } else {
+        alert("Geolocation is not supported by your browser. Please enter your city manually.");
+    }
+}
+
+getUserLocation();
