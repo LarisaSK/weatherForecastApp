@@ -227,6 +227,27 @@ function getLocalTime(date, cityTimezoneOffset) {
     const cityTime = new Date(date.getTime() + (timeDifference * 1000));
     return cityTime;
 }
+function reverseGeocode(latitude, longitude) {
+    const apiKey = "d33f0ce7a09838a09d8022ab1acae3d1";
+    const reverseGeocodeUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${apiKey}`;
+    fetch(reverseGeocodeUrl)
+        .then(response => response.json())
+        .then(data => {
+        if (data && data.length > 0) {
+            const city = data[0].name;
+            document.getElementById("idInput").value = city; // Update the input field with the city name
+            getWeather(); // Fetch weather for the detected city
+        }
+        else {
+            displayErrorMessage("Could not determine city from your location. Please enter your city manually.");
+        }
+    })
+        .catch(error => {
+        console.error("Error during reverse geocoding:", error);
+        displayErrorMessage("Failed to get city name from your location. Please enter your city manually.");
+    });
+}
+reverseGeocode(58.1467, 7.9956);
 
 })();
 
