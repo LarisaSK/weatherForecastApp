@@ -221,10 +221,10 @@ function getUserLocation(): void {
             reverseGeocode(latitude, longitude);
         }, error => {
             console.error("Error getting location:", error);
-            alert("Unable to retrieve your location. Please enter your city manually.");
+            displayErrorMessage("Unable to retrieve your location. Please enter your city manually.");
         });
     } else {
-        alert("Geolocation is not supported by your browser. Please enter your city manually.");
+        displayErrorMessage("Geolocation is not supported by your browser. Please enter your city manually.");
     }
 }
 
