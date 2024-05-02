@@ -205,7 +205,6 @@ function setUpNavClickEvents() {
         });
     });
 }
-setUpNavClickEvents();
 function updateDatesInNav() {
     const forecastDays = document.querySelectorAll('.forecastDays');
     const today = new Date();
@@ -262,7 +261,13 @@ function getUserLocation() {
         alert("Geolocation is not supported by your browser. Please enter your city manually.");
     }
 }
-getUserLocation();
+// Initialize functions on page load
+function init() {
+    getUserLocation();
+    updateDatesInNav();
+    setUpNavClickEvents();
+}
+init();
 
 })();
 

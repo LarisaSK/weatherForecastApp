@@ -163,7 +163,6 @@ function setUpNavClickEvents(): void {
         });
     });
 }
-setUpNavClickEvents();
 
 function updateDatesInNav(): void {
     const forecastDays = document.querySelectorAll('.forecastDays');
@@ -229,4 +228,14 @@ function getUserLocation(): void {
     }
 }
 
-getUserLocation();
+// Initialize functions on page load
+function init(): void {
+    getUserLocation();
+    updateDatesInNav();
+    setUpNavClickEvents();
+}
+
+
+init();
+
+
