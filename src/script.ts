@@ -92,9 +92,14 @@ function showImage(): void {
     weatherIcon.style.display = "inline-block";
 }
 
-function displayHourlyForecast(): void {
+function displayHourlyForecast(hourlyData: any, selectedDate: Date, timezoneOffset: number, currentWeatherData: any): void {
     const hourlyForecastSection = document.getElementById("hourlyForecastSection") as HTMLElement;
     hourlyForecastSection.innerHTML = ''; // Clear previous forecast data
+
+    const now = new Date(); // Get the current date and time
+    const selectedDateString = selectedDate.toISOString().split('T')[0];
+    const isToday = now.toISOString().split('T')[0] === selectedDateString;
+
 }
 
 

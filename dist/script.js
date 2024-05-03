@@ -141,9 +141,12 @@ function showImage() {
     const weatherIcon = document.getElementById("weatherIcon");
     weatherIcon.style.display = "inline-block";
 }
-function displayHourlyForecast() {
+function displayHourlyForecast(hourlyData, selectedDate, timezoneOffset, currentWeatherData) {
     const hourlyForecastSection = document.getElementById("hourlyForecastSection");
     hourlyForecastSection.innerHTML = ''; // Clear previous forecast data
+    const now = new Date(); // Get the current date and time
+    const selectedDateString = selectedDate.toISOString().split('T')[0];
+    const isToday = now.toISOString().split('T')[0] === selectedDateString;
 }
 // Only display weather when the searchBtn is clicked while the btn has class btn_active
 let btn = document.getElementById("idBtn");
