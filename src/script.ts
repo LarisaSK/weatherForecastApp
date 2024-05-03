@@ -92,6 +92,12 @@ function showImage(): void {
     weatherIcon.style.display = "inline-block";
 }
 
+function displayHourlyForecast(): void {
+    const hourlyForecastSection = document.getElementById("hourlyForecastSection") as HTMLElement;
+    hourlyForecastSection.innerHTML = ''; // Clear previous forecast data
+}
+
+
 // Only display weather when the searchBtn is clicked while the btn has class btn_active
 let btn = document.getElementById("idBtn") as HTMLButtonElement;
 let input = document.getElementById("idInput") as HTMLInputElement;
@@ -107,12 +113,14 @@ btn.addEventListener("click", function() {
     }
 });
 
+
 function displayErrorMessage(message: string): void {
     const errorMessageDiv = document.getElementById("error-message") as HTMLElement;
 
     errorMessageDiv.textContent = message;
     errorMessageDiv.style.display = 'block';
 }
+
 
 function renderWeatherElements(data: any): void {
     const elementsConfig = [
@@ -227,6 +235,7 @@ function getUserLocation(): void {
         displayErrorMessage("Geolocation is not supported by your browser. Please enter your city manually.");
     }
 }
+
 
 // Initialize functions on page load
 function init(): void {

@@ -141,6 +141,10 @@ function showImage() {
     const weatherIcon = document.getElementById("weatherIcon");
     weatherIcon.style.display = "inline-block";
 }
+function displayHourlyForecast() {
+    const hourlyForecastSection = document.getElementById("hourlyForecastSection");
+    hourlyForecastSection.innerHTML = ''; // Clear previous forecast data
+}
 // Only display weather when the searchBtn is clicked while the btn has class btn_active
 let btn = document.getElementById("idBtn");
 let input = document.getElementById("idInput");
