@@ -147,6 +147,26 @@ function displayHourlyForecast(hourlyData, selectedDate, timezoneOffset, current
     const now = new Date(); // Get the current date and time
     const selectedDateString = selectedDate.toISOString().split('T')[0];
     const isToday = now.toISOString().split('T')[0] === selectedDateString;
+    let filteredData = [];
+    if (isToday) {
+        const currentWeather = {
+            dt: currentWeatherData.dt,
+            main: currentWeatherData.main,
+            weather: currentWeatherData.weather,
+            clouds: currentWeatherData.clouds,
+            wind: currentWeatherData.wind
+        };
+        filteredData.push(currentWeather);
+        for (let i = 0; i < 8; i++) {
+            const targetTime = new Date(now.getTime() + (i + 1) * 3 * 60 * 60 * 1000);
+            let closestItem = hourlyData.list.reduce((prev, curr) => {
+                const prevTimeDiff = Math.abs(new Date(prev.dt * 1000).getTime() - targetTime.getTime());
+                const currTimeDiff = Math.abs(new Date(curr.dt * 1000).getTime() - targetTime.getTime());
+                return (currTimeDiff < prevTimeDiff ? curr : prev);
+            });
+            filteredData.push(closestItem);
+        }
+    }
 }
 // Only display weather when the searchBtn is clicked while the btn has class btn_active
 let btn = document.getElementById("idBtn");
