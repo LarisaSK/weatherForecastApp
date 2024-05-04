@@ -167,6 +167,13 @@ function displayHourlyForecast(hourlyData, selectedDate, timezoneOffset, current
             filteredData.push(closestItem);
         }
     }
+    else {
+        // For other days, retain the original 3-hour interval forecast
+        filteredData = hourlyData.list.filter((item) => {
+            const itemDate = new Date(item.dt * 1000);
+            return itemDate.toISOString().split('T')[0] === selectedDateString;
+        });
+    }
 }
 // Only display weather when the searchBtn is clicked while the btn has class btn_active
 let btn = document.getElementById("idBtn");

@@ -124,6 +124,13 @@ if (isToday) {
         filteredData.push(closestItem);
         }
     }
+    else {
+        // For other days, retain the original 3-hour interval forecast
+        filteredData = hourlyData.list.filter((item: any) => {
+            const itemDate = new Date(item.dt * 1000);
+            return itemDate.toISOString().split('T')[0] === selectedDateString;
+        });
+    }
 }
 
 
