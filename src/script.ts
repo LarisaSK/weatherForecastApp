@@ -59,6 +59,8 @@ function getWeather(): void {
                     console.log("Forecast Data:", forecastData); // Log the API response
                     fullForecastData = forecastData; // Store forecast data globally
                     updateDatesInNav(); // Update dates after fetching data
+                    displayHourlyForecast(forecastData, new Date(), forecastData.city.timezone, currentWeatherData); // Pass timezone offset and current weather
+
                 });
         })
         .catch(error => {
