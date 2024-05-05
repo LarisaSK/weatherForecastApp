@@ -102,37 +102,73 @@ function displayHourlyForecast(hourlyData: any, selectedDate: Date, timezoneOffs
 
     let filteredData: any[] = [];
 
-if (isToday) {
-    const currentWeather = {
-        dt: currentWeatherData.dt,
-        main: currentWeatherData.main,
-        weather: currentWeatherData.weather,
-        clouds: currentWeatherData.clouds,
-        wind: currentWeatherData.wind
-    };
+    if (isToday) {
+        // Use the current weather data for the "Now" section
+        const currentWeather = {
+            dt: currentWeatherData.dt,
+            main: currentWeatherData.main,
+            weather: currentWeatherData.weather,
+            clouds: currentWeatherData.clouds,
+            wind: currentWeatherData.wind
+        };
 
-    filteredData.push(currentWeather);
+        filteredData.push(currentWeather);
 
-    for (let i = 0; i < 8; i++) {
-        const targetTime = new Date(now.getTime() + (i + 1) * 3 * 60 * 60 * 1000);
-        let closestItem = hourlyData.list.reduce((prev: any, curr: any) => {
-            const prevTimeDiff = Math.abs(new Date(prev.dt * 1000).getTime() - targetTime.getTime());
-            const currTimeDiff = Math.abs(new Date(curr.dt * 1000).getTime() - targetTime.getTime());
-            return (currTimeDiff < prevTimeDiff ? curr : prev);
-        });
+        // Add the forecasts for the next 24 hours in 3-hour intervals
+        for (let i = 0; i < 8; i++) { // 8 intervals of 3 hours cover 24 hours
+            const targetTime = new Date(now.getTime() + (i + 1) * 3 * 60 * 60 * 1000); // Increment by 3 hours
+            
+            // Find the closest time match
+            let closestItem = hourlyData.list.reduce((prev: any, curr: any) => {
+                const prevTimeDiff = Math.abs(new Date(prev.dt * 1000).getTime() - targetTime.getTime());
+                const currTimeDiff = Math.abs(new Date(curr.dt * 1000).getTime() - targetTime.getTime());
+                return (currTimeDiff < prevTimeDiff ? curr : prev);
+            });
 
-        filteredData.push(closestItem);
+            filteredData.push(closestItem);
         }
-    }
-    else {
+    } else {
         // For other days, retain the original 3-hour interval forecast
         filteredData = hourlyData.list.filter((item: any) => {
             const itemDate = new Date(item.dt * 1000);
             return itemDate.toISOString().split('T')[0] === selectedDateString;
         });
     }
-}
 
+    // Render the forecast items
+    filteredData.forEach((item, index) => {
+        const dateTime = new Date(item.dt * 1000);
+        const localTime = getLocalTime(dateTime, timezoneOffset); // Adjust for the correct timezone
+        const hour = localTime.getHours();
+        const minute = localTime.getMinutes();
+        const temperature = item.main.temp !== undefined ? Math.round(item.main.temp - 273.15) : '--';
+        const iconCode = item.weather[0].icon;
+        const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        const humidity = item.main.humidity !== undefined ? `${item.main.humidity}` : '--';
+        const windSpeed = item.wind.speed !== undefined ? `${Math.round(item.wind.speed)}` : '--';
+        const cloudCoverage = item.clouds.all !== undefined ? `${item.clouds.all}` : '0%';
+
+        // Label the first item as "Now" and ensure it shows the current time
+        const timeLabel = (isToday && index === 0) ? 'Now' : `${hour}:${minute < 10 ? '0' : ''}${minute}`;
+        const displayedTime = (isToday && index === 0) ? now.toLocaleTimeString() : `${hour}:${minute < 10 ? '0' : ''}${minute}`;
+    
+        const hourlyItemHTML = `
+        <div class="hourlyItem" 
+             data-temp="${temperature}" 
+             tabindex="0"
+             data-icon="${iconUrl}" 
+             data-humidity="${humidity}" 
+             data-wind="${windSpeed}" 
+             data-cloud="${cloudCoverage}" 
+             data-description="${item.weather[0].description}" 
+             data-time="${displayedTime}"> <!-- Use displayedTime here -->
+            <span>${timeLabel}</span>
+            <img src="${iconUrl}" alt="Hourly weather Icon">
+            <span>${temperature}°C</span>
+        </div>`;
+        hourlyForecastSection.innerHTML += hourlyItemHTML;
+    });
+}
 
 // Only display weather when the searchBtn is clicked while the btn has class btn_active
 let btn = document.getElementById("idBtn") as HTMLButtonElement;
