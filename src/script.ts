@@ -89,6 +89,32 @@ function loadFetchedWeatherData(data: any): void {
     }
 }
 
+// Updating mainsection based on clicked hourlyItem
+function updateMainWeatherDisplay(
+    temperature: string, 
+    iconUrl: string, 
+    humidity: string, 
+    windSpeed: string, 
+    cloudCoverage: string, 
+    description: string, 
+    time: string, 
+    cityName: string
+): void {
+    const weatherData = {
+        temperature,
+        iconUrl,
+        description,
+        humidity,
+        windSpeed,
+        cloudCoverage,
+        time,
+        cityName
+    };
+
+    renderWeatherElements(weatherData);
+}
+
+
 function showImage(): void {
     const weatherIcon = document.getElementById("weatherIcon") as HTMLImageElement;
     weatherIcon.style.display = "inline-block";
@@ -311,11 +337,14 @@ function getUserLocation(): void {
 }
 
 
+
+
 // Initialize functions on page load
 function init(): void {
     getUserLocation();
     updateDatesInNav();
     setUpNavClickEvents();
+    
 }
 
 

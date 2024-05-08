@@ -138,6 +138,20 @@ function loadFetchedWeatherData(data) {
         showImage();
     }
 }
+// Updating mainsection based on clicked hourlyItem
+function updateMainWeatherDisplay(temperature, iconUrl, humidity, windSpeed, cloudCoverage, description, time, cityName) {
+    const weatherData = {
+        temperature,
+        iconUrl,
+        description,
+        humidity,
+        windSpeed,
+        cloudCoverage,
+        time,
+        cityName
+    };
+    renderWeatherElements(weatherData);
+}
 function showImage() {
     const weatherIcon = document.getElementById("weatherIcon");
     weatherIcon.style.display = "inline-block";
