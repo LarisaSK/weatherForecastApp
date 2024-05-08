@@ -268,6 +268,37 @@ function setUpNavClickEvents(): void {
 
             // Add 'active' class to the clicked day
             dayElement.classList.add('active');
+
+            const isToday = index === 0;
+
+            if (isToday) {
+                // Force refetch the current weather data for today to ensure it's up-to-date
+                getWeather();
+            } else if (fullForecastData) {
+                const selectedDate = new Date();
+                selectedDate.setDate(selectedDate.getDate() + index);
+
+                // Display hourly forecast for the selected date
+                displayHourlyForecast(fullForecastData, selectedDate, fullForecastData.city.timezone, null);
+
+                const earliestForecast = fullForecastData.list.find((item: any) => {
+                    const itemDate = new Date(item.dt * 1000);
+                    return itemDate.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0];
+                });
+
+                if (earliestForecast) {
+                    updateMainWeatherDisplay(
+                        Math.round(earliestForecast.main.temp - 273.15).toString(),
+                        `http://openweathermap.org/img/wn/${earliestForecast.weather[0].icon}@2x.png`,
+                        earliestForecast.main.humidity.toString(),
+                        Math.round(earliestForecast.wind.speed).toString(),
+                        earliestForecast.clouds.all.toString(),
+                        earliestForecast.weather[0].description,
+                        new Date(earliestForecast.dt * 1000).toLocaleTimeString(),
+                        fullForecastData.city.name
+                    );
+                }
+            }
         });
     });
 }
