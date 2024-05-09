@@ -62,6 +62,14 @@ $gap-large: 2rem;
     margin-left: 15rem;
     height: 100%;
   }
+  #hourlyForecastSection{
+    width:100%;
+    display: flex;
+    gap: $gap-large;
+    justify-content: space-between;
+    white-space: nowrap;  
+    overflow-y: visible;
+  }
 
   #mainWeatherDisplay{
     @include centerGrid();
