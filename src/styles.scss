@@ -63,12 +63,26 @@ $gap-large: 2rem;
     height: 100%;
   }
   #hourlyForecastSection{
+    overflow-x: auto;
     width:100%;
     display: flex;
     gap: $gap-large;
     justify-content: space-between;
     white-space: nowrap;  
     overflow-y: visible;
+
+    .hourlyItem{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 0 0 auto;
+      width: 20%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      background-color: #4edbc4;
+      border-radius: 15px;
+      }
   }
 
   #mainWeatherDisplay{
