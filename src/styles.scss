@@ -80,8 +80,8 @@ $gap-large: 2rem;
       padding: 0.5rem;
       margin-bottom: 1rem;
       cursor: pointer;
-      background-color: #4edbc4;
-      border-radius: 15px;
+      @include blurryBackground();
+
       }
   }
 
