@@ -1,11 +1,6 @@
-//Defining Sass variables: 
+//Defining Sass variables
 
-//colors
-$primary-color: #4edbc4;
-$hover-color: #429b9b;
-$text-color: #fff;
-$blur-color: #ffffff67;
-
+$border-radius:15px;
 //font-size
 $font-size-large: 3.75rem;   
 $font-size-medium:20px;  
@@ -14,55 +9,61 @@ $font-size-medium:20px;
 $font-weight-normal: 400;
 $font-weight-bold: 700;
 
+
+//colors
+$primary-color: #4edbc4;
+$hover-color: #429b9b;
+$text-color: #fff;
+$blur-color: #ffffff67;
+
 // Gaps
 $gap-large: 2rem;
 
-//Defining Sass mixins
 
+//Defining Sass mixins
 @mixin centerGrid{
     display: grid;
     justify-content: center;
     align-items: center;
 }
 
-
 @mixin blurryBackground($border-radius:15px){
-  background-color: $blur-color;
-  backdrop-filter: blur(10px);
-  border-radius: $border-radius;
+    background-color: $blur-color;
+    backdrop-filter: blur(10px);
+    border-radius: $border-radius;
 }
 
-
-* {
-    padding: 0;
-    margin: 0;
+*{
+    padding:0;
+    margin:0;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-
-  h1,h2,h3,h4,h5 label, p{
-    text-align: center;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
-  body {
-    @include centerGrid();
+body{
+   @include centerGrid();
     height: 100%;
     width: 100%;
-    background-size: cover; /* This makes the image cover the entire screen */
+    background-size: cover;  /* This makes the image cover the entire screen */
     background-position: center; /* This centers the image */
     background-repeat: no-repeat; /* Prevents the image from repeating */
     background-image: url("./images/day/clear_day.jpg");
     padding-bottom: 20px;
-  }
+}
 
-  #weather-container {
+#weather-container {
     @include centerGrid();
-    gap: 2rem;
+    gap: $gap-large;
     width: 60vw;
     margin-left: 15rem;
     height: 100%;
-  }
-  #hourlyForecastSection{
+}
+
+h1,h2,h3,h4,h5 label, p{
+    text-align: center;
+}
+
+#hourlyForecastSection{
     overflow-x: auto;
     width:100%;
     display: flex;
@@ -72,114 +73,118 @@ $gap-large: 2rem;
     overflow-y: visible;
 
     .hourlyItem{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 0 0 auto;
-      width: 20%;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-      cursor: pointer;
-      @include blurryBackground();
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 0 0 auto;
+        width: 20%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        @include blurryBackground();
+        }
+}
 
-      }
-  }
+.forecastDays:hover,
+.forecastDays.active,
+.hourlyItem.active,  
+.hourlyItem:hover{
+    background-color: $hover-color !important;
+    color: $text-color !important;
+        } 
 
-  #mainWeatherDisplay{
+#mainWeatherDisplay{
     @include centerGrid();
     justify-items: center;
 
     #airDetailsSection{
-      display: flex;
-      gap: $gap-large;
-      font-size: $font-size-medium;
-      width:100%;//ensuring 
-      overflow-x: auto;//responsiveness 
-      margin-top: 1rem;
-  }
+        display: flex;
+        gap: $gap-large;
+        font-size: $font-size-medium;
+        width:100%;//ensuring 
+        overflow-x: auto;//responsiveness 
+        margin-top: 1rem;
+        }
 
     #temperatureAndIconSection{
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-
-      #weatherIcon{
-        width: 10rem;
-    height: auto; // Keeps the aspect ratio of the image
-        display: none;
-    }
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
     
-    #temperatureDiv p{
-      font-size: $font-size-large;
-      text-align: center;
-        }
-      }
-    }
+        #weatherIcon{
+                width: 10rem;
+            height: auto; // Keeps the aspect ratio of the image
+                display: none;
+            }
     
-.airDetailsClass{
-  display: grid; 
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: auto auto;
-  justify-items: center; 
-  text-align: center;
-  width: 155px; 
-  height: 150px; 
-  padding: 1rem;
-  @include blurryBackground(); 
-
-  .airInfoDetail{
-      height: 50px;
-      grid-column: span 2;
-  
-      &:last-child  {
-          grid-column: 2 / span 2;
-          }
-  }
+            #temperatureDiv p{
+                font-size: $font-size-large;
+                text-align: center;
+         }
+    }
 }
 
+.airDetailsClass{
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto auto;
+    justify-items: center; 
+    text-align: center;
+    width: 155px; 
+    height: 150px; 
+    padding: 1rem;
+    @include blurryBackground(); 
 
-  #navbar {
+    .airInfoDetail{
+        height: 50px;
+        grid-column: span 2;
+    
+        &:last-child  {
+            grid-column: 2 / span 2;
+            }
+    }
+}
+
+#navbar {
     position: fixed;
     height: 100vh;
     width: 15rem;
     top: 0;
     left: 0;
-    background-color: rgba(255, 255, 255, 0.4039215686);
-    backdrop-filter: blur(10px);
-    border-radius: -radius;
+    @include blurryBackground(-radius);
     z-index: 999;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
- 
+    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out; 
 
-  #navList {
-    display: grid;
-    grid-template-columns: 1fr;
-    height: 100%;
-    align-content: space-around;
+    #navList {
+        display: grid;
+        grid-template-columns: 1fr;
+        height: 100%;
+        align-content: space-around;
 
-    .forecastDays{
-        list-style: none;
-        background-color: $primary-color;
-        padding: 1.5rem;
-        border-radius:15px;
-        cursor: pointer;
-        margin: 0 0.5rem;
-        transition: 0.2s ease;
-        
-&:hover,
-&.active{
-    background-color: rgb(31, 121, 91);
-    color: #FFF;
-        } 
-      }
-    }
-  }
+        .forecastDays{
+            list-style: none;
+            background-color: $primary-color;
+            padding: 1.5rem;
+            border-radius:15px;
+            cursor: pointer;
+            margin: 0 0.5rem;
+            transition: 0.2s ease;
+                }
+        }
+}
 
-  .toggleNavIcons {
+#topSection {
+    align-self: baseline;
+    width: 100%;
+    display: flex;
+     /* Align the items to the start (left) */
+}
+
+.toggleNavIcons {
     display: none;
     cursor: pointer;
     background: none;
@@ -195,9 +200,16 @@ $gap-large: 2rem;
     &#navCloseIcon {
         right: 10px;
         }
+}
+/* For mobile screens */
+@media (max-width: 428px) {
+    #navbar {
+        width: 100vw; /* Full width of the viewport */
+        transform: translateX(0); /* Ensure it's fully visible */
     }
+}
 
-    /* For tablet screens */
+/* For tablet screens */
 @media (max-width: 790px) {
     #navbar {
         display: none; /* Keep hidden initially */
@@ -212,8 +224,20 @@ $gap-large: 2rem;
     .toggleNavIcons {
         display: block;
     }
+
+    #weather-container {
+        width: 80vw;
+        margin-left: 0;
+    }
 }
 
+/* For screens wider than 790px */
+@media (min-width: 791px) {
+    #weather-container {
+        width: 60vw; /* Adjust container width */
+        margin-left: 15rem; /* Adjust left margin */
+    }
+}
 
 
 #searchWrapper {
@@ -228,7 +252,7 @@ $gap-large: 2rem;
         .input{
             width: 50%;
             padding: 20px;
-            border: none;
+            border: 0;
             border-radius: 50px;
             transition: width 0.5s ease;
             padding-left: 70px;
@@ -239,29 +263,28 @@ $gap-large: 2rem;
                     }
             }
 
-            .btn{
-                width: 100%;
-                height: 60px;
-                padding: 20px;
-                border: none;
-                background-color: $primary-color;
-                border-radius: 50px;
-                text-align: center;
-                cursor: pointer;
-                position: absolute;
-                top: 0;
-                left: 0;
-                transition: width 0.5s ease;
+        .btn{
+            width: 100%;
+            height: 60px;
+            padding: 20px;
+            border: none;
+            background-color: $primary-color;
+            border-radius: 50px;
+            text-align: center;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: width 0.5s ease;
 
-                &.btn_active{
-                    width: 20%;
-                   }
+            &.btn_active{
+                 width: 20%;
+                }
+            }
         }
-    }
 }
 
 #error-message{
-  font-weight: $font-weight-bold;
-  text-align: center;
-  }
-  
+font-weight: $font-weight-bold;
+text-align: center;
+}

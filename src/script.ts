@@ -1,25 +1,7 @@
 import './styles.scss';
-
 let fullForecastData: any = null; //to store full forecast data globally
 
-// Function to toggle the navigation menu
-function toggleNavMenu(): void {
-    const navbar = document.getElementById('navbar') as HTMLElement;
-    const navMenuIcon = document.getElementById('navMenuIcon') as HTMLElement;
-    const navCloseIcon = document.getElementById('navCloseIcon') as HTMLElement;
-
-    // Add event listeners to both the menu toggle button and the close button
-    navMenuIcon.addEventListener('click', () => {
-        navbar.classList.toggle('open');
-    });
-    navCloseIcon.addEventListener('click', () => {
-        navbar.classList.toggle('open');
-    });
-}
-
-// Call the function to initialize the menu toggle functionality
-toggleNavMenu();
-
+// Function to fetch current weather and forecast data
 function getWeather(): void {
     const apiKey = "d33f0ce7a09838a09d8022ab1acae3d1";
     const city = (document.getElementById("idInput") as HTMLInputElement).value;
@@ -60,7 +42,6 @@ function getWeather(): void {
                     fullForecastData = forecastData; // Store forecast data globally
                     updateDatesInNav(); // Update dates after fetching data
                     displayHourlyForecast(forecastData, new Date(), forecastData.city.timezone, currentWeatherData); // Pass timezone offset and current weather
-
                 });
         })
         .catch(error => {
@@ -69,6 +50,14 @@ function getWeather(): void {
         });
 }
 
+function displayErrorMessage(message: string): void {
+    const errorMessageDiv = document.getElementById("error-message") as HTMLElement;
+
+    errorMessageDiv.textContent = message;
+    errorMessageDiv.style.display = 'block';
+}
+
+// Function to display weather information
 function loadFetchedWeatherData(data: any): void {
     if (data.cod === '404') {
         document.getElementById("descriptionDiv")!.innerHTML = `<p>${data.message}</p>`;
@@ -89,35 +78,18 @@ function loadFetchedWeatherData(data: any): void {
     }
 }
 
-// Updating mainsection based on clicked hourlyItem
-function updateMainWeatherDisplay(
-    temperature: string, 
-    iconUrl: string, 
-    humidity: string, 
-    windSpeed: string, 
-    cloudCoverage: string, 
-    description: string, 
-    time: string, 
-    cityName: string
-): void {
-    const weatherData = {
-        temperature,
-        iconUrl,
-        description,
-        humidity,
-        windSpeed,
-        cloudCoverage,
-        time,
-        cityName
-    };
+// Function to calculate the local time in the city based on the user's local time and the city's timezone offset
+function getLocalTime(date: Date, cityTimezoneOffset: number): Date {
+    // Get user's local time offset in minutes and convert it to seconds
+    const userTimezoneOffset = date.getTimezoneOffset() * 60;
 
-    renderWeatherElements(weatherData);
-}
+    // Calculate the difference between the user's local time and the city's time
+    const timeDifference = cityTimezoneOffset - userTimezoneOffset;
 
+    // Calculate the city's local time by adjusting the user's local time
+    const cityTime = new Date(date.getTime() + (timeDifference * 1000));
 
-function showImage(): void {
-    const weatherIcon = document.getElementById("weatherIcon") as HTMLImageElement;
-    weatherIcon.style.display = "inline-block";
+    return cityTime;
 }
 
 function displayHourlyForecast(hourlyData: any, selectedDate: Date, timezoneOffset: number, currentWeatherData: any): void {
@@ -196,68 +168,76 @@ function displayHourlyForecast(hourlyData: any, selectedDate: Date, timezoneOffs
         </div>`;
         hourlyForecastSection.innerHTML += hourlyItemHTML;
     });
+
+    // Set up click events for the hourly items in the forecast section
+    setUpHourlyClickEvents();
 }
 
-// Only display weather when the searchBtn is clicked while the btn has class btn_active
-let btn = document.getElementById("idBtn") as HTMLButtonElement;
-let input = document.getElementById("idInput") as HTMLInputElement;
-btn.addEventListener("click", function() {
-    this.classList.toggle("btn_active");
-    input.classList.toggle("input_active");
+// Setting click events for hourly items to show weather data
+function setUpHourlyClickEvents(): void {
+    const hourlyItems = document.querySelectorAll('.hourlyItem');
 
-    if (!this.classList.contains("btn_active")) {
-        getWeather();
-    } else {
-        input.focus();
-        input.value = '';
-    }
-});
-
-
-function displayErrorMessage(message: string): void {
-    const errorMessageDiv = document.getElementById("error-message") as HTMLElement;
-
-    errorMessageDiv.textContent = message;
-    errorMessageDiv.style.display = 'block';
-}
-
-
-function renderWeatherElements(data: any): void {
-    const elementsConfig = [
-        { id: "cityNameDiv", content: `<h2>${data.cityName}</h2>` },
-        { id: "temperatureDiv", content: `<p>${data.temperature}°C</p>` },
-        { id: "descriptionDiv", content: `<p>${data.description}</p>` },
-        { id: "timeDiv", content: `<p>Time: ${data.time}</p>` },
-        { id: "humiditySection", content: `
-            <span class="airInfoDetail material-icons">water_drop</span>
-            <span class="airInfoDetail">${data.humidity}%</span>
-            <div class="airInfoDetail">Humidity</div>` },
-        { id: "windSpeedSection", content: `
-            <span class="airInfoDetail material-icons">air</span>
-            <span class="airInfoDetail">${data.windSpeed} m/s</span>
-            <div class="airInfoDetail">Wind speed</div>` },
-        { id: "cloudCoverageSection", content: `
-            <span class="airInfoDetail material-icons">cloud</span>
-            <span class="airInfoDetail">${data.cloudCoverage}%</span>
-            <div class="airInfoDetail">Cloud coverage</div>` }
-    ];
-
-    // Update innerHTML for each element
-    elementsConfig.forEach(({ id, content }) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.innerHTML = content;
-        }
+    hourlyItems.forEach((item) => {
+        item.addEventListener('click', () => {
+            item.classList.add('active');
+    
+            const temperature = item.getAttribute('data-temp');
+            const iconUrl = item.getAttribute('data-icon');
+            const humidity = item.getAttribute('data-humidity');
+            const windSpeed = item.getAttribute('data-wind');
+            const cloudCoverage = item.getAttribute('data-cloud');
+            const description = item.getAttribute('data-description');
+            const time = item.getAttribute('data-time');
+            const cityName = document.getElementById('cityNameDiv')!.textContent || '';
+    
+            // Update the individual weather elements instead of a single section
+            updateMainWeatherDisplay(temperature || '', iconUrl || '', humidity || '', windSpeed || '', cloudCoverage || '', description || '', time || '', cityName);
+        });
     });
+}
 
-    // Update the weather icon separately
-    const weatherIcon = document.getElementById("weatherIcon") as HTMLImageElement;
-    if (weatherIcon) {
-        weatherIcon.src = data.iconUrl;
-        weatherIcon.alt = data.description;
+// Updating air details section based on clicked hourlyItem
+function updateMainWeatherDisplay(
+    temperature: string, 
+    iconUrl: string, 
+    humidity: string, 
+    windSpeed: string, 
+    cloudCoverage: string, 
+    description: string, 
+    time: string, 
+    cityName: string
+): void {
+    const weatherData = {
+        temperature,
+        iconUrl,
+        description,
+        humidity,
+        windSpeed,
+        cloudCoverage,
+        time,
+        cityName
+    };
+
+    renderWeatherElements(weatherData);
+}
+
+// Function to update dates in the navigation menu
+function updateDatesInNav(): void {
+    const forecastDays = document.querySelectorAll('.forecastDays');
+    const today = new Date();
+
+    for (let i = 0; i < forecastDays.length; i++) {
+        const date = today;
+        date.setDate(today.getDate() + i);
+
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+        const dayDate = date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
+
+        (forecastDays[i] as HTMLElement).innerText = `${dayName} ${dayDate}`;
     }
 }
-//Function to set up click event for navigation
+
+// Function to set up click events for navigation items
 function setUpNavClickEvents(): void {
     const forecastDays = document.querySelectorAll('.forecastDays');
 
@@ -303,33 +283,40 @@ function setUpNavClickEvents(): void {
     });
 }
 
-function updateDatesInNav(): void {
-    const forecastDays = document.querySelectorAll('.forecastDays');
-    const today = new Date();
 
-    for (let i = 0; i < forecastDays.length; i++) {
-        const date = today;
-        date.setDate(today.getDate() + i);
-
-        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-        const dayDate = date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
-
-        (forecastDays[i] as HTMLElement).innerText = `${dayName} ${dayDate}`;
-    }
+function showImage(): void {
+    const weatherIcon = document.getElementById("weatherIcon") as HTMLImageElement;
+    weatherIcon.style.display = "inline-block";
 }
 
-// Function to calculate the local time in the city based on the user's local time and the city's timezone offset
-function getLocalTime(date: Date, cityTimezoneOffset: number): Date {
-    // Get user's local time offset in minutes and convert it to seconds
-    const userTimezoneOffset = date.getTimezoneOffset() * 60;
+// Only display weather when the searchBtn is clicked while the btn has class btn_active
+let btn = document.getElementById("idBtn") as HTMLButtonElement;
+let input = document.getElementById("idInput") as HTMLInputElement;
+btn.addEventListener("click", function() {
+    this.classList.toggle("btn_active");
+    input.classList.toggle("input_active");
 
-    // Calculate the difference between the user's local time and the city's time
-    const timeDifference = cityTimezoneOffset - userTimezoneOffset;
+    if (!this.classList.contains("btn_active")) {
+        getWeather();
+    } else {
+        input.focus();
+        input.value = '';
+    }
+});
 
-    // Calculate the city's local time by adjusting the user's local time
-    const cityTime = new Date(date.getTime() + (timeDifference * 1000));
-
-    return cityTime;
+function getUserLocation(): void {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            reverseGeocode(latitude, longitude);
+        }, error => {
+            console.error("Error getting location:", error);
+            alert("Unable to retrieve your location. Please enter your city manually.");
+        });
+    } else {
+        alert("Geolocation is not supported by your browser. Please enter your city manually.");
+    }
 }
 
 function reverseGeocode(latitude: number, longitude: number): void {
@@ -351,34 +338,81 @@ function reverseGeocode(latitude: number, longitude: number): void {
             displayErrorMessage("Failed to get city name from your location. Please enter your city manually.");        });
 }
 
+function toggleNavMenu(): void {
+    const navbar = document.getElementById('navbar') as HTMLElement;
+    const navMenuIcon = document.getElementById('navMenuIcon') as HTMLElement;
+    const navCloseIcon = document.getElementById('navCloseIcon') as HTMLElement;
 
-function getUserLocation(): void {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            reverseGeocode(latitude, longitude);
-        }, error => {
-            console.error("Error getting location:", error);
-            displayErrorMessage("Unable to retrieve your location. Please enter your city manually.");
-        });
-    } else {
-        displayErrorMessage("Geolocation is not supported by your browser. Please enter your city manually.");
-    }
+    // Add event listeners to both the menu toggle button and the close button
+    navMenuIcon.addEventListener('click', () => {
+        navbar.classList.toggle('open');
+    });
+    navCloseIcon.addEventListener('click', () => {
+        navbar.classList.toggle('open');
+    });
 }
 
+// Call the function to initialize the menu toggle functionality
+toggleNavMenu();
 
+// Focus event listener for the hourly items
+function focusHourlyItems(): void {
+    const hourlyItems = document.querySelectorAll('.hourlyItem');
 
+    hourlyItems.forEach(item => {
+        item.addEventListener('click', () => {
+            // Remove 'active' class from all items
+            hourlyItems.forEach(item => item.classList.remove('active'));
+
+            // Add 'active' class to the clicked item
+            item.classList.add('active');
+        });
+    });
+}
+
+function renderWeatherElements(data: any): void {
+    const elementsConfig = [
+        { id: "cityNameDiv", content: `<h2>${data.cityName}</h2>` },
+        { id: "temperatureDiv", content: `<p>${data.temperature}°C</p>` },
+        { id: "descriptionDiv", content: `<p>${data.description}</p>` },
+        { id: "timeDiv", content: `<p>Time: ${data.time}</p>` },
+        { id: "humiditySection", content: `
+            <span class="airInfoDetail material-icons">water_drop</span>
+            <span class="airInfoDetail">${data.humidity}%</span>
+            <div class="airInfoDetail">Humidity</div>` },
+        { id: "windSpeedSection", content: `
+            <span class="airInfoDetail material-icons">air</span>
+            <span class="airInfoDetail">${data.windSpeed} m/s</span>
+            <div class="airInfoDetail">Wind speed</div>` },
+        { id: "cloudCoverageSection", content: `
+            <span class="airInfoDetail material-icons">cloud</span>
+            <span class="airInfoDetail">${data.cloudCoverage}%</span>
+            <div class="airInfoDetail">Cloud coverage</div>` }
+    ];
+
+    // Update innerHTML for each element
+    elementsConfig.forEach(({ id, content }) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.innerHTML = content;
+        }
+    });
+
+    // Update the weather icon separately
+    const weatherIcon = document.getElementById("weatherIcon") as HTMLImageElement;
+    if (weatherIcon) {
+        weatherIcon.src = data.iconUrl;
+        weatherIcon.alt = data.description;
+    }
+}
 
 // Initialize functions on page load
 function init(): void {
     getUserLocation();
     updateDatesInNav();
     setUpNavClickEvents();
-    
+    focusHourlyItems();
 }
 
-
+// Initialize everything on page load
 init();
-
-

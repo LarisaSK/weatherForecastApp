@@ -8,10 +8,6 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-h1, h2, h3, h4, h5 label, p {
-  text-align: center;
-}
-
 body {
   display: grid;
   justify-content: center;
@@ -35,6 +31,10 @@ body {
   height: 100%;
 }
 
+h1, h2, h3, h4, h5 label, p {
+  text-align: center;
+}
+
 #hourlyForecastSection {
   overflow-x: auto;
   width: 100%;
@@ -56,6 +56,14 @@ body {
   background-color: rgba(255, 255, 255, 0.4039215686);
   backdrop-filter: blur(10px);
   border-radius: 15px;
+}
+
+.forecastDays:hover,
+.forecastDays.active,
+.hourlyItem.active,
+.hourlyItem:hover {
+  background-color: #429b9b !important;
+  color: #fff !important;
 }
 
 #mainWeatherDisplay {
@@ -139,9 +147,12 @@ body {
   margin: 0 0.5rem;
   transition: 0.2s ease;
 }
-#navbar #navList .forecastDays:hover, #navbar #navList .forecastDays.active {
-  background-color: rgb(31, 121, 91);
-  color: #FFF;
+
+#topSection {
+  align-self: baseline;
+  width: 100%;
+  display: flex;
+  /* Align the items to the start (left) */
 }
 
 .toggleNavIcons {
@@ -160,6 +171,13 @@ body {
   right: 10px;
 }
 
+/* For mobile screens */
+@media (max-width: 428px) {
+  #navbar {
+    width: 100vw; /* Full width of the viewport */
+    transform: translateX(0); /* Ensure it's fully visible */
+  }
+}
 /* For tablet screens */
 @media (max-width: 790px) {
   #navbar {
@@ -172,6 +190,17 @@ body {
   }
   .toggleNavIcons {
     display: block;
+  }
+  #weather-container {
+    width: 80vw;
+    margin-left: 0;
+  }
+}
+/* For screens wider than 790px */
+@media (min-width: 791px) {
+  #weather-container {
+    width: 60vw; /* Adjust container width */
+    margin-left: 15rem; /* Adjust left margin */
   }
 }
 #searchWrapper {
@@ -186,7 +215,7 @@ body {
 #searchWrapper #citySearch .input {
   width: 50%;
   padding: 20px;
-  border: none;
+  border: 0;
   border-radius: 50px;
   transition: width 0.5s ease;
   padding-left: 70px;

@@ -64,21 +64,7 @@ var exports = __webpack_exports__;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __webpack_require__(/*! ./styles.scss */ "./src/styles.scss");
 let fullForecastData = null; //to store full forecast data globally
-// Function to toggle the navigation menu
-function toggleNavMenu() {
-    const navbar = document.getElementById('navbar');
-    const navMenuIcon = document.getElementById('navMenuIcon');
-    const navCloseIcon = document.getElementById('navCloseIcon');
-    // Add event listeners to both the menu toggle button and the close button
-    navMenuIcon.addEventListener('click', () => {
-        navbar.classList.toggle('open');
-    });
-    navCloseIcon.addEventListener('click', () => {
-        navbar.classList.toggle('open');
-    });
-}
-// Call the function to initialize the menu toggle functionality
-toggleNavMenu();
+// Function to fetch current weather and forecast data
 function getWeather() {
     const apiKey = "d33f0ce7a09838a09d8022ab1acae3d1";
     const city = document.getElementById("idInput").value;
@@ -119,6 +105,12 @@ function getWeather() {
         displayErrorMessage('Failed to fetch weather data. Please try again.');
     });
 }
+function displayErrorMessage(message) {
+    const errorMessageDiv = document.getElementById("error-message");
+    errorMessageDiv.textContent = message;
+    errorMessageDiv.style.display = 'block';
+}
+// Function to display weather information
 function loadFetchedWeatherData(data) {
     if (data.cod === '404') {
         document.getElementById("descriptionDiv").innerHTML = `<p>${data.message}</p>`;
@@ -138,23 +130,15 @@ function loadFetchedWeatherData(data) {
         showImage();
     }
 }
-// Updating mainsection based on clicked hourlyItem
-function updateMainWeatherDisplay(temperature, iconUrl, humidity, windSpeed, cloudCoverage, description, time, cityName) {
-    const weatherData = {
-        temperature,
-        iconUrl,
-        description,
-        humidity,
-        windSpeed,
-        cloudCoverage,
-        time,
-        cityName
-    };
-    renderWeatherElements(weatherData);
-}
-function showImage() {
-    const weatherIcon = document.getElementById("weatherIcon");
-    weatherIcon.style.display = "inline-block";
+// Function to calculate the local time in the city based on the user's local time and the city's timezone offset
+function getLocalTime(date, cityTimezoneOffset) {
+    // Get user's local time offset in minutes and convert it to seconds
+    const userTimezoneOffset = date.getTimezoneOffset() * 60;
+    // Calculate the difference between the user's local time and the city's time
+    const timeDifference = cityTimezoneOffset - userTimezoneOffset;
+    // Calculate the city's local time by adjusting the user's local time
+    const cityTime = new Date(date.getTime() + (timeDifference * 1000));
+    return cityTime;
 }
 function displayHourlyForecast(hourlyData, selectedDate, timezoneOffset, currentWeatherData) {
     const hourlyForecastSection = document.getElementById("hourlyForecastSection");
@@ -223,6 +207,87 @@ function displayHourlyForecast(hourlyData, selectedDate, timezoneOffset, current
         </div>`;
         hourlyForecastSection.innerHTML += hourlyItemHTML;
     });
+    // Set up click events for the hourly items in the forecast section
+    setUpHourlyClickEvents();
+}
+// Setting click events for hourly items to show weather data
+function setUpHourlyClickEvents() {
+    const hourlyItems = document.querySelectorAll('.hourlyItem');
+    hourlyItems.forEach((item) => {
+        item.addEventListener('click', () => {
+            item.classList.add('active');
+            const temperature = item.getAttribute('data-temp');
+            const iconUrl = item.getAttribute('data-icon');
+            const humidity = item.getAttribute('data-humidity');
+            const windSpeed = item.getAttribute('data-wind');
+            const cloudCoverage = item.getAttribute('data-cloud');
+            const description = item.getAttribute('data-description');
+            const time = item.getAttribute('data-time');
+            const cityName = document.getElementById('cityNameDiv').textContent || '';
+            // Update the individual weather elements instead of a single section
+            updateMainWeatherDisplay(temperature || '', iconUrl || '', humidity || '', windSpeed || '', cloudCoverage || '', description || '', time || '', cityName);
+        });
+    });
+}
+// Updating air details section based on clicked hourlyItem
+function updateMainWeatherDisplay(temperature, iconUrl, humidity, windSpeed, cloudCoverage, description, time, cityName) {
+    const weatherData = {
+        temperature,
+        iconUrl,
+        description,
+        humidity,
+        windSpeed,
+        cloudCoverage,
+        time,
+        cityName
+    };
+    renderWeatherElements(weatherData);
+}
+// Function to update dates in the navigation menu
+function updateDatesInNav() {
+    const forecastDays = document.querySelectorAll('.forecastDays');
+    const today = new Date();
+    for (let i = 0; i < forecastDays.length; i++) {
+        const date = today;
+        date.setDate(today.getDate() + i);
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+        const dayDate = date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
+        forecastDays[i].innerText = `${dayName} ${dayDate}`;
+    }
+}
+// Function to set up click events for navigation items
+function setUpNavClickEvents() {
+    const forecastDays = document.querySelectorAll('.forecastDays');
+    forecastDays.forEach((dayElement, index) => {
+        dayElement.addEventListener('click', () => {
+            // Remove 'active' class from all forecast days
+            forecastDays.forEach(day => day.classList.remove('active'));
+            // Add 'active' class to the clicked day
+            dayElement.classList.add('active');
+            const isToday = index === 0;
+            if (isToday) {
+                // Force refetch the current weather data for today to ensure it's up-to-date
+                getWeather();
+            }
+            else if (fullForecastData) {
+                const selectedDate = new Date();
+                selectedDate.setDate(selectedDate.getDate() + index);
+                // Display hourly forecast for the selected date
+                displayHourlyForecast(fullForecastData, selectedDate, fullForecastData.city.timezone, null);
+                const earliestForecast = fullForecastData.list.find((item) => {
+                    const itemDate = new Date(item.dt * 1000);
+                    return itemDate.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0];
+                });
+                if (earliestForecast) {
+                    updateMainWeatherDisplay(Math.round(earliestForecast.main.temp - 273.15).toString(), `http://openweathermap.org/img/wn/${earliestForecast.weather[0].icon}@2x.png`, earliestForecast.main.humidity.toString(), Math.round(earliestForecast.wind.speed).toString(), earliestForecast.clouds.all.toString(), earliestForecast.weather[0].description, new Date(earliestForecast.dt * 1000).toLocaleTimeString(), fullForecastData.city.name);
+                }
+            }
+        });
+    });
+}
+function showImage() {
+    const weatherIcon = document.getElementById("weatherIcon");
+    weatherIcon.style.display = "inline-block";
 }
 // Only display weather when the searchBtn is clicked while the btn has class btn_active
 let btn = document.getElementById("idBtn");
@@ -238,10 +303,66 @@ btn.addEventListener("click", function () {
         input.value = '';
     }
 });
-function displayErrorMessage(message) {
-    const errorMessageDiv = document.getElementById("error-message");
-    errorMessageDiv.textContent = message;
-    errorMessageDiv.style.display = 'block';
+function getUserLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            reverseGeocode(latitude, longitude);
+        }, error => {
+            console.error("Error getting location:", error);
+            alert("Unable to retrieve your location. Please enter your city manually.");
+        });
+    }
+    else {
+        alert("Geolocation is not supported by your browser. Please enter your city manually.");
+    }
+}
+function reverseGeocode(latitude, longitude) {
+    const apiKey = "d33f0ce7a09838a09d8022ab1acae3d1";
+    const reverseGeocodeUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${apiKey}`;
+    fetch(reverseGeocodeUrl)
+        .then(response => response.json())
+        .then(data => {
+        if (data && data.length > 0) {
+            const city = data[0].name;
+            document.getElementById("idInput").value = city; // Update the input field with the city name
+            getWeather(); // Fetch weather for the detected city
+        }
+        else {
+            displayErrorMessage("Could not determine city from your location. Please enter your city manually.");
+        }
+    })
+        .catch(error => {
+        console.error("Error during reverse geocoding:", error);
+        displayErrorMessage("Failed to get city name from your location. Please enter your city manually.");
+    });
+}
+function toggleNavMenu() {
+    const navbar = document.getElementById('navbar');
+    const navMenuIcon = document.getElementById('navMenuIcon');
+    const navCloseIcon = document.getElementById('navCloseIcon');
+    // Add event listeners to both the menu toggle button and the close button
+    navMenuIcon.addEventListener('click', () => {
+        navbar.classList.toggle('open');
+    });
+    navCloseIcon.addEventListener('click', () => {
+        navbar.classList.toggle('open');
+    });
+}
+// Call the function to initialize the menu toggle functionality
+toggleNavMenu();
+// Focus event listener for the hourly items
+function focusHourlyItems() {
+    const hourlyItems = document.querySelectorAll('.hourlyItem');
+    hourlyItems.forEach(item => {
+        item.addEventListener('click', () => {
+            // Remove 'active' class from all items
+            hourlyItems.forEach(item => item.classList.remove('active'));
+            // Add 'active' class to the clicked item
+            item.classList.add('active');
+        });
+    });
 }
 function renderWeatherElements(data) {
     const elementsConfig = [
@@ -276,98 +397,14 @@ function renderWeatherElements(data) {
         weatherIcon.alt = data.description;
     }
 }
-//Function to set up click event for navigation
-function setUpNavClickEvents() {
-    const forecastDays = document.querySelectorAll('.forecastDays');
-    forecastDays.forEach((dayElement, index) => {
-        dayElement.addEventListener('click', () => {
-            // Remove 'active' class from all forecast days
-            forecastDays.forEach(day => day.classList.remove('active'));
-            // Add 'active' class to the clicked day
-            dayElement.classList.add('active');
-            const isToday = index === 0;
-            if (isToday) {
-                // Force refetch the current weather data for today to ensure it's up-to-date
-                getWeather();
-            }
-            else if (fullForecastData) {
-                const selectedDate = new Date();
-                selectedDate.setDate(selectedDate.getDate() + index);
-                // Display hourly forecast for the selected date
-                displayHourlyForecast(fullForecastData, selectedDate, fullForecastData.city.timezone, null);
-                const earliestForecast = fullForecastData.list.find((item) => {
-                    const itemDate = new Date(item.dt * 1000);
-                    return itemDate.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0];
-                });
-                if (earliestForecast) {
-                    updateMainWeatherDisplay(Math.round(earliestForecast.main.temp - 273.15).toString(), `http://openweathermap.org/img/wn/${earliestForecast.weather[0].icon}@2x.png`, earliestForecast.main.humidity.toString(), Math.round(earliestForecast.wind.speed).toString(), earliestForecast.clouds.all.toString(), earliestForecast.weather[0].description, new Date(earliestForecast.dt * 1000).toLocaleTimeString(), fullForecastData.city.name);
-                }
-            }
-        });
-    });
-}
-function updateDatesInNav() {
-    const forecastDays = document.querySelectorAll('.forecastDays');
-    const today = new Date();
-    for (let i = 0; i < forecastDays.length; i++) {
-        const date = today;
-        date.setDate(today.getDate() + i);
-        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-        const dayDate = date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
-        forecastDays[i].innerText = `${dayName} ${dayDate}`;
-    }
-}
-// Function to calculate the local time in the city based on the user's local time and the city's timezone offset
-function getLocalTime(date, cityTimezoneOffset) {
-    // Get user's local time offset in minutes and convert it to seconds
-    const userTimezoneOffset = date.getTimezoneOffset() * 60;
-    // Calculate the difference between the user's local time and the city's time
-    const timeDifference = cityTimezoneOffset - userTimezoneOffset;
-    // Calculate the city's local time by adjusting the user's local time
-    const cityTime = new Date(date.getTime() + (timeDifference * 1000));
-    return cityTime;
-}
-function reverseGeocode(latitude, longitude) {
-    const apiKey = "d33f0ce7a09838a09d8022ab1acae3d1";
-    const reverseGeocodeUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${apiKey}`;
-    fetch(reverseGeocodeUrl)
-        .then(response => response.json())
-        .then(data => {
-        if (data && data.length > 0) {
-            const city = data[0].name;
-            document.getElementById("idInput").value = city; // Update the input field with the city name
-            getWeather(); // Fetch weather for the detected city
-        }
-        else {
-            displayErrorMessage("Could not determine city from your location. Please enter your city manually.");
-        }
-    })
-        .catch(error => {
-        console.error("Error during reverse geocoding:", error);
-        displayErrorMessage("Failed to get city name from your location. Please enter your city manually.");
-    });
-}
-function getUserLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            reverseGeocode(latitude, longitude);
-        }, error => {
-            console.error("Error getting location:", error);
-            displayErrorMessage("Unable to retrieve your location. Please enter your city manually.");
-        });
-    }
-    else {
-        displayErrorMessage("Geolocation is not supported by your browser. Please enter your city manually.");
-    }
-}
 // Initialize functions on page load
 function init() {
     getUserLocation();
     updateDatesInNav();
     setUpNavClickEvents();
+    focusHourlyItems();
 }
+// Initialize everything on page load
 init();
 
 })();
