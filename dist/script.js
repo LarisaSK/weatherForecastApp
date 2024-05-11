@@ -213,19 +213,23 @@ function displayHourlyForecast(hourlyData, selectedDate, timezoneOffset, current
 // Setting click events for hourly items to show weather data
 function setUpHourlyClickEvents() {
     const hourlyItems = document.querySelectorAll('.hourlyItem');
-    hourlyItems.forEach((item) => {
-        item.addEventListener('click', () => {
-            item.classList.add('active');
-            const temperature = item.getAttribute('data-temp');
-            const iconUrl = item.getAttribute('data-icon');
-            const humidity = item.getAttribute('data-humidity');
-            const windSpeed = item.getAttribute('data-wind');
-            const cloudCoverage = item.getAttribute('data-cloud');
-            const description = item.getAttribute('data-description');
-            const time = item.getAttribute('data-time');
+    hourlyItems.forEach((hourlyElement) => {
+        hourlyElement.addEventListener('click', () => {
+            // Remove 'active' class from all hourly items
+            hourlyItems.forEach(item => item.classList.remove('active'));
+            // Add 'active' class to the clicked hourly item
+            hourlyElement.classList.add('active');
+            // Update the weather display based on the clicked hourly item
+            const temperature = hourlyElement.getAttribute('data-temp') || '';
+            const iconUrl = hourlyElement.getAttribute('data-icon') || '';
+            const humidity = hourlyElement.getAttribute('data-humidity') || '';
+            const windSpeed = hourlyElement.getAttribute('data-wind') || '';
+            const cloudCoverage = hourlyElement.getAttribute('data-cloud') || '';
+            const description = hourlyElement.getAttribute('data-description') || '';
+            const time = hourlyElement.getAttribute('data-time') || '';
             const cityName = document.getElementById('cityNameDiv').textContent || '';
-            // Update the individual weather elements instead of a single section
-            updateMainWeatherDisplay(temperature || '', iconUrl || '', humidity || '', windSpeed || '', cloudCoverage || '', description || '', time || '', cityName);
+            // Update the main weather display
+            updateMainWeatherDisplay(temperature, iconUrl, humidity, windSpeed, cloudCoverage, description, time, cityName);
         });
     });
 }
