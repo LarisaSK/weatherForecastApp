@@ -82,6 +82,7 @@ h1,h2,h3,h4,h5 label, p{
         margin-bottom: 1rem;
         cursor: pointer;
         @include blurryBackground();
+        transition: 0.2s ease;
         }
 }
 

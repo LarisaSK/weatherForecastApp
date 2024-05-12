@@ -56,6 +56,7 @@ h1, h2, h3, h4, h5 label, p {
   background-color: rgba(255, 255, 255, 0.4039215686);
   backdrop-filter: blur(10px);
   border-radius: 15px;
+  transition: 0.2s ease;
 }
 
 .forecastDays:hover,
