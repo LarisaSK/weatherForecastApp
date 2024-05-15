@@ -1,4 +1,4 @@
-name: Deploy weatherForecastApp to GitHub Pages
+name: Deploying weatherForecastApp on GithubPages
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - opened
       - reopened
 
-jobs:
+jobs: 
   build:
     runs-on: ubuntu-latest
 
