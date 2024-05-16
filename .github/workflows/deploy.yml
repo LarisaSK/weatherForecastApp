@@ -1,37 +1,40 @@
-name: Deploying weatherForecastApp on GithubPages
+name: Deploy weatherForecastApp to GitHub Pages
 
 on:
   push:
     branches:
       - main
   pull_request:
-    branches:
-      - main
-    types: 
+    types:
       - opened
       - reopened
+    branches:
+      - main
 
-jobs: 
+permissions:
+  contents: write  # Grant write permission to push changes to the repository
+
+jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18'  # Using Node.js version 18
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Build the project
-      run: npm run build  # Make sure this matches your build script in package.json
+      - name: Build the project
+        run: npm run build
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist  # Make sure this matches your actual build output directory
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist  # Replace with your build output directory
