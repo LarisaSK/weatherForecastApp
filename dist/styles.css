@@ -17,7 +17,7 @@ body {
   background-size: cover; /* This makes the image cover the entire screen */
   background-position: center; /* This centers the image */
   background-repeat: no-repeat; /* Prevents the image from repeating */
-  background-image: url(130551503f5fe952d44a.jpg);
+  background-image: url(assets/images/clear_day.jpg);
   padding-bottom: 20px;
 }
 

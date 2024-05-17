@@ -20,10 +20,17 @@ module.exports = {
       {
         test: /\.scss$/,  // Match .scss files
         use: [
-            MiniCssExtractPlugin.loader,  // Extract CSS into a separate file
+          MiniCssExtractPlugin.loader,  // Extract CSS into a separate file
           'css-loader',    // Turn CSS into CommonJS modules
           'sass-loader',   // Compile Sass to CSS
         ],
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,  // Match image files
+        type: 'asset/resource',  // Use asset/resource to handle image files
+        generator: {
+          filename: 'assets/images/[name][ext]',  // Output path for images
+        },
       },
     ],
   },  
