@@ -13,6 +13,8 @@
   "author": "Larisa Saitova",
   "license": "ISC",
   "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/minimatch": "^5.1.2",
     "css-loader": "^7.1.2",
     "mini-css-extract-plugin": "^2.9.1",
     "sass": "^1.77.8",
