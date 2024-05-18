@@ -5,11 +5,11 @@ on:
     branches:
       - main
   pull_request:
+    branches:
+      - main
     types:
       - opened
       - reopened
-    branches:
-      - main
 
 permissions:
   contents: write  # Grant write permission to push changes to the repository
@@ -20,12 +20,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Update to v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3  # Update to v3
         with:
-          node-version: '18'
+          node-version: '18'  # Use the appropriate version you're targeting
 
       - name: Install dependencies
         run: npm install
@@ -34,7 +34,8 @@ jobs:
         run: npm run build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4  # Update to v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist  # Replace with your build output directory
+          publish_branch: gh-pages
