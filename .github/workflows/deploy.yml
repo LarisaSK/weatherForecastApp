@@ -33,9 +33,10 @@ jobs:
       - name: Build the project
         run: npm run build
 
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4  # Update to v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist  # Replace with your build output directory
+          publish_dir: ./dist 
           publish_branch: gh-pages
