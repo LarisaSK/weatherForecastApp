@@ -1,5 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');  // Import HtmlWebpackPlugin
 
 module.exports = {
   entry: './src/script.ts',  // Entry point for your TypeScript file
@@ -33,13 +34,17 @@ module.exports = {
         },
       },
     ],
-  },  
+  },
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'styles.css',  // Name of the extracted CSS file
     }),
+    new HtmlWebpackPlugin({
+      template: './src/index.html',  // Path to your source index.html
+      filename: 'index.html',  // Output filename in the dist directory
+    }),
   ],
 
-  mode: 'development',  // Use 'production' for minified output
+  mode: 'development',  
   devtool: 'source-map',
 };

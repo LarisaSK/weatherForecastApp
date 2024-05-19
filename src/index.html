@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="../dist/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    <div id="weather-container">
+     
+       <section id="topSection">
+        <button id="navMenuIcon" class="toggleNavIcons">
+                    <i class="material-icons">menu</i>
+                </button>
+
+       </section>
+       <div id="error-message"></div> 
+
+       <div id="searchWrapper">
+        <div id="citySearch">
+            <input type="text" id="idInput" class="input" placeholder="Search for a city" role="searchbox">
+            <button id="idBtn" class="btn">
+                <i class="material-icons">search</i>
+            </button>
+        </div>
+    </div>
+          
+ <section id="mainWeatherDisplay">
+    <section id="cityNameDiv"></section>
+    <section id="descriptionDiv"></section>
+
+     <section id="temperatureAndIconSection">
+        <img id="weatherIcon" alt="Weather Icon">
+        <div id="temperatureDiv"></div>
+    </section>  
+    
+    <section id="timeDiv"></section>        
+    <section id="airDetailsSection">
+        <section id="humiditySection" class="airDetailsClass"></section>
+        <section id="windSpeedSection" class="airDetailsClass"></section>
+        <section id="cloudCoverageSection" class="airDetailsClass"></section>
+    </section>
+</section>
+
+            <section id="hourlyForecastSection"></section>
+        </section>    
+    </div>
+    <nav id="navbar">
+        <button id="navCloseIcon" class="toggleNavIcons">
+            <i class="material-icons">close</i>
+        </button>
+        <ul id="navList">
+            <li id="forecastDay0" class="forecastDays">Mandag</li>
+            <li id="forecastDay1" class="forecastDays">Tirsdag</li>
+            <li id="forecastDay2" class="forecastDays">Onsdag</li>
+            <li id="forecastDay3" class="forecastDays">Torsdag</li>
+            <li id="forecastDay4" class="forecastDays">Fredag</li>
+        </ul>
+    </nav>
+
+    <script src="../dist/script.js"></script>
+</body>
+</html>
