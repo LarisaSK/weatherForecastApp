@@ -1,6 +1,7 @@
 {
   "name": "weatherforecastapp",
   "version": "1.0.0",
+  "homepage": "https://larisask.github.io/weatherForecastApp/",
   "description": "A website to check the weather forecast in differen citites",
   "main": "dist/script.js",
   "scripts": {
