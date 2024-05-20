@@ -231,8 +231,8 @@ function updateDatesInNav(): void {
     const today = new Date();
 
     for (let i = 0; i < forecastDays.length; i++) {
-        const date = today;
-        date.setDate(today.getDate() + i);
+        const date = new Date(today); // Create a new Date object based on today
+        date.setDate(today.getDate() + i); // Increment the date for each iteration
 
         const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
         const dayDate = date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
