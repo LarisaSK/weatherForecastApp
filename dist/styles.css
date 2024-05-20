@@ -85,11 +85,15 @@ h1, h2, h3, h4, h5 label, p {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  overflow: hidden;
+  aspect-ratio: 1/1;
 }
 #mainWeatherDisplay #temperatureAndIconSection #weatherIcon {
   width: 10rem;
   height: auto;
   display: none;
+  max-width: 100%;
+  object-fit: contain;
 }
 #mainWeatherDisplay #temperatureAndIconSection #temperatureDiv p {
   font-size: 3.75rem;
